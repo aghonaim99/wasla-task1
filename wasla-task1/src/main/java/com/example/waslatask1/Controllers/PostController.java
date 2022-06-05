@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.net.CacheRequest;
@@ -29,8 +30,11 @@ public class PostController {
         return new ResponseEntity<List<Post>>(posts, new HttpHeaders(), HttpStatus.OK);
     }
 
-    public ResponseEntity<List<Post>> getPostsPageable(int pagenum, int rowsPerPage) {
+    @GetMapping("/getPageOfPosts")
+    public ResponseEntity<List<Post>> getPostsPageable(@RequestParam(name="page", required = true) int pageNum,
+                                                       @RequestParam(name="size", defaultValue = "2") int rowsPerPage) {
+        List<Post> posts = postService.getPostsPageable(pageNum,rowsPerPage);
 
-        return null;
+        return new ResponseEntity<List<Post>>(posts, new HttpHeaders(), HttpStatus.OK);
     }
 }

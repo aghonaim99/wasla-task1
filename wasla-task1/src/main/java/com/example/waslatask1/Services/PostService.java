@@ -3,8 +3,12 @@ package com.example.waslatask1.Services;
 import com.example.waslatask1.Models.Post;
 import com.example.waslatask1.Repositories.PostRepo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import org.springframework.data.domain.Pageable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,6 +24,9 @@ public class PostService {
 
     public List<Post> getPostsPageable(int pageNum, int rowsPerPage)
     {
-        return new ArrayList<Post>();
+        PageRequest p = PageRequest.of(pageNum, rowsPerPage, Sort.by("id"));
+        Page<Post> retrieved = postRepo.findAll(p);
+
+        return retrieved.getContent();
     }
 }
