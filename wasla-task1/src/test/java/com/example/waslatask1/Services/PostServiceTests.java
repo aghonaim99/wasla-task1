@@ -24,6 +24,7 @@ import java.time.Month;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.when;
 
 @SpringBootTest
@@ -111,7 +112,7 @@ class PostServiceTests {
 
         List<Post> actualResult = postService.getPostsPageable(0, 1);
 
-        Assert.assertEquals(expectedResult, actualResult);
+        assertEquals(expectedResult, actualResult);
     }
 
     @Test
@@ -132,6 +133,100 @@ class PostServiceTests {
 
         List<Post> actualResult = postService.getPostsPageable(0, 2);
 
-        Assert.assertEquals(expectedResult, actualResult);
+        assertEquals(expectedResult, actualResult);
     }
+
+//    @Test
+//    public void getOnePostInSecondPage()
+//    {
+//        Category expectedCateg = initSecondCategory();
+//        Post expectedPost = initSecondPost(expectedCateg);
+//
+//        List<Post> expectedResult = new ArrayList<>();
+//        expectedResult.add(expectedPost);
+//
+//        Page<Post> expectedPage = new PageImpl<>(expectedResult);
+//
+//        // mocking repo
+//        PageRequest p = PageRequest.of(1, 1, Sort.by("id"));
+//        when(postRepo.findAll(p)).thenReturn(expectedPage);
+//
+//        List<Post> actualResult = postService.getPostsPageable(0, 1);
+//
+//        assertEquals(expectedResult, actualResult);
+//    }
+
+//    @Test
+//    public void get2PostsInSecondPage(){
+//        Category c1 = initFirstCategory();
+//        Category c2 = initSecondCategory();
+//        Post p1 = initFirstPost(c1);
+//        Post p2 = initSecondPost(c2);
+//
+//        List<Post> expectedResult = new ArrayList<>();
+//        expectedResult.add(p1);
+//        expectedResult.add(p2);
+//
+//        // mocking repo
+//        Page<Post> expectedPage = new PageImpl<>(expectedResult);
+//        PageRequest p = PageRequest.of(1, 2, Sort.by("id"));
+//        when(postRepo.findAll(p)).thenReturn(expectedPage);
+//
+//        List<Post> actualResult = postService.getPostsPageable(0, 2);
+//
+//        assertEquals(expectedResult, actualResult);
+//    }
+
+    @Test
+    public void createPost(){
+        Category c = initFirstCategory();
+        Post expected = initFirstPost(c);
+
+        when(postRepo.save(expected)).thenReturn(expected);
+
+        Post actual = postService.createPost(expected);
+
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    public void updateCategoryOfExistingPost(){
+        Category c = initFirstCategory();
+        Category newCateg = initSecondCategory();
+
+        Post p = initFirstPost(c);
+        Post expectedNewPost = initFirstPost(newCateg);
+
+
+
+        when(postRepo.save(expectedNewPost)).thenReturn(expectedNewPost);
+
+        Post actual = postService.updatePost(expectedNewPost);
+
+        assertEquals(expectedNewPost, actual);
+    }
+
+    @Test
+    public void Update_Not_Existing_Post_Creates_New_One(){
+        Category c = initSecondCategory();
+        Post expectedPost = initFirstPost(c);
+
+        // make it a new post
+        expectedPost.setId(900L);
+
+        when(postRepo.save(expectedPost)).thenReturn(expectedPost);
+
+        Post actual = postService.updatePost(expectedPost);
+
+        assertEquals(expectedPost, actual);
+    }
+
+//    @Test
+//    public void Delete_An_Existing_Post(){
+//        Category c = initFirstCategory();
+//        Post p = initFirstPost(c);
+//
+//        assertEquals(c, p);
+//
+//    }
 }

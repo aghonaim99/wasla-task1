@@ -11,7 +11,6 @@ import java.util.List;
 
 @Repository
 public interface PostRepo extends JpaRepository<Post, Long> {
-//    @Override
-//    Page<Post> findAll(Pageable pageable);
+
 }
 

@@ -7,6 +7,10 @@ import java.sql.Date;
 @Table(name="POST")
 public class Post {
     @Id
+    @Column(name="ID", unique = true, nullable = false, insertable = true, updatable = true)
+//    @GeneratedValue(strategy=GenerationType.SEQUENCE)
+    @GeneratedValue(strategy=GenerationType.SEQUENCE, generator = "id_Sequence")
+    @SequenceGenerator(name = "id_Sequence", sequenceName = "POST_SEQ", allocationSize = 1)
     private Long id;
 
     @Column(name="TITLE_EN")

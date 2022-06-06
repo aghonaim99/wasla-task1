@@ -29,4 +29,23 @@ public class PostService {
 
         return retrieved.getContent();
     }
+
+    public Post createPost(Post post) {
+        postRepo.save(post);
+
+        return post;
+    }
+
+    public Post updatePost(Post newPost) {
+        return postRepo.save(newPost);
+    }
+
+    public String deletePost(Post post){
+        if(postRepo.existsById(post.getId()))
+            postRepo.deleteById(post.getId());
+        else
+            return "Post not found!";
+
+        return "Post deleted successfully";
+    }
 }

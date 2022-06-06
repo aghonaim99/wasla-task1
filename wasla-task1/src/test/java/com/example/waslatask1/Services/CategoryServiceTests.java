@@ -53,9 +53,8 @@ class CategoryServiceTests {
         actual = categoryService.getCategoriesPageable(0,1);
 
 
-
-        Assert.assertTrue(expected.equals(actual));
-
-
+        Assert.assertEquals(expected, actual);
     }
+
+
 }

@@ -6,10 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.net.CacheRequest;
 import java.util.ArrayList;
@@ -36,5 +33,22 @@ public class PostController {
         List<Post> posts = postService.getPostsPageable(pageNum,rowsPerPage);
 
         return new ResponseEntity<List<Post>>(posts, new HttpHeaders(), HttpStatus.OK);
+    }
+
+    @PostMapping("/createPost")
+    public ResponseEntity<Post> createUser(@RequestBody Post post) {
+        Post p = postService.createPost(post);
+        return new ResponseEntity<Post>(p, new HttpHeaders(), HttpStatus.CREATED);
+    }
+
+    @PostMapping("/updatePost")
+    public ResponseEntity<Post> updatePost(@RequestBody Post post){
+        Post p = postService.updatePost(post);
+        return new ResponseEntity<Post>(p, new HttpHeaders(), HttpStatus.OK);
+    }
+
+    @DeleteMapping("/deletePost")
+    public ResponseEntity<String> deletePost(@RequestBody Post post){
+        PostService.d
     }
 }
