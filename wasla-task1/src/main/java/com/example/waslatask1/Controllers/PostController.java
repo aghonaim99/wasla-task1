@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.net.CacheRequest;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/Post")
@@ -35,6 +36,13 @@ public class PostController {
         return new ResponseEntity<List<Post>>(posts, new HttpHeaders(), HttpStatus.OK);
     }
 
+    @GetMapping("/findPostById")
+    public ResponseEntity<Post> findPostByID(@RequestParam(name="postID", required = true) Long postID) {
+        Post post = postService.getPost(postID);
+
+        return new ResponseEntity<>(post, new HttpHeaders(), HttpStatus.OK);
+    }
+
     @PostMapping("/createPost")
     public ResponseEntity<Post> createUser(@RequestBody Post post) {
         Post p = postService.createPost(post);
@@ -47,8 +55,8 @@ public class PostController {
         return new ResponseEntity<Post>(p, new HttpHeaders(), HttpStatus.OK);
     }
 
-    @DeleteMapping("/deletePost")
-    public ResponseEntity<String> deletePost(@RequestBody Post post){
-        PostService.d
-    }
+//    @DeleteMapping("/deletePost")
+//    public ResponseEntity<String> deletePost(@RequestBody Post post){
+//        PostService.d
+//    }
 }
