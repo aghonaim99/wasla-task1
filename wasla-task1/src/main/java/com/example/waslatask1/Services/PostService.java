@@ -1,7 +1,10 @@
 package com.example.waslatask1.Services;
 
+import com.example.waslatask1.Exceptions.InvalidCategoryIDException;
 import com.example.waslatask1.Exceptions.InvalidPostIDException;
+import com.example.waslatask1.Exceptions.PostAlreadyExistsException;
 import com.example.waslatask1.Models.Post;
+import com.example.waslatask1.Repositories.CategoryRepo;
 import com.example.waslatask1.Repositories.PostRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -16,6 +19,8 @@ import java.util.Optional;
 public class PostService {
     @Autowired
     PostRepo postRepo;
+    @Autowired
+    CategoryRepo categoryRepo;
 
     public List<Post> getAllPosts()
     {
@@ -31,7 +36,12 @@ public class PostService {
     }
 
     public Post createPost(Post post) {
-        postRepo.save(post);
+        if(categoryRepo.existsById(post.getCategory().getId()) && !postRepo.existsById(post.getId()))
+            postRepo.save(post);
+        else if(!categoryRepo.existsById(post.getCategory().getId()))
+            throw new InvalidCategoryIDException();
+        else if(postRepo.existsById(post.getId()))
+            throw new PostAlreadyExistsException();
 
         return post;
     }
@@ -47,12 +57,12 @@ public class PostService {
         if(postRepo.existsById(post.getId()))
             postRepo.deleteById(post.getId());
         else
-            return "Post not found";
+            throw new InvalidPostIDException();
 
         return "Post deleted successfully";
     }
 
     public Post getPost(Long id) {
-        return postRepo.findById(id).orElseThrow(() -> new InvalidPostIDException());
+        return postRepo.findById(id).orElseThrow(InvalidPostIDException::new);
     }
 }

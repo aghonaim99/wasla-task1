@@ -20,16 +20,16 @@ import java.util.stream.Collectors;
 
 @ControllerAdvice
 public class ControllerAdvisor extends ResponseEntityExceptionHandler {
-//    @ExceptionHandler(InvalidCategoryIDException.class)
-//    public ResponseEntity<Object> handleInvalidCategoryException(InvalidCategoryIDException ex, WebRequest request)
-//    {
-//        Map<String, Object> body = new LinkedHashMap<>();
-//        body.put("timestamp", LocalDateTime.now());
-//        body.put("code", "-1");
-//        body.put("message", "Category does not exist");
-//
-//        return new ResponseEntity<>(body, HttpStatus.NOT_FOUND);
-//    }
+    @ExceptionHandler(InvalidCategoryIDException.class)
+    public ResponseEntity<Object> handleInvalidCategoryException(InvalidCategoryIDException ex, WebRequest request)
+    {
+        Map<String, Object> body = new LinkedHashMap<>();
+        body.put("timestamp", LocalDateTime.now());
+        body.put("code", "-1");
+        body.put("message", "Category does not exist");
+
+        return new ResponseEntity<>(body, HttpStatus.NOT_FOUND);
+    }
 
     @ExceptionHandler(InvalidPostIDException.class)
     public ResponseEntity<Object> handleInvalidCategoryException(InvalidPostIDException ex, WebRequest request)
@@ -38,6 +38,17 @@ public class ControllerAdvisor extends ResponseEntityExceptionHandler {
         body.put("timestamp", LocalDateTime.now());
         body.put("code", "-2");
         body.put("message", "Post does not exist");
+
+        return new ResponseEntity<>(body, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(PostAlreadyExistsException.class)
+    public ResponseEntity<Object> handlePostAlreadyExistsException(PostAlreadyExistsException ex, WebRequest request)
+    {
+        Map<String, Object> body = new LinkedHashMap<>();
+        body.put("timestamp", LocalDateTime.now());
+        body.put("code", "-3");
+        body.put("message", "Post already exists");
 
         return new ResponseEntity<>(body, HttpStatus.NOT_FOUND);
     }
