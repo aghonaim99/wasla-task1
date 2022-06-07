@@ -42,6 +42,16 @@ public class Post {
     @JoinColumn(name = "CATEGORY_ID", referencedColumnName = "ID")
     private Category category;
 
+    @PostPersist
+    public void saveCreatedAtDate(){
+        setCreated_at(new Date(new java.util.Date().getTime()));
+    }
+
+    @PostUpdate
+    public void updateModifiedDate(){
+        setMODIFIED_at(new Date(new java.util.Date().getTime()));
+    }
+
     public Long getId() {
         return id;
     }
