@@ -53,6 +53,17 @@ public class ControllerAdvisor extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(body, HttpStatus.NOT_FOUND);
     }
 
+    @ExceptionHandler(InvalidLanguageException.class)
+    public ResponseEntity<Object> handleInvalidLangException(InvalidLanguageException ex, WebRequest request)
+    {
+        Map<String, Object> body = new LinkedHashMap<>();
+        body.put("timestamp", LocalDateTime.now());
+        body.put("code", "-4");
+        body.put("message", "Invalid language");
+
+        return new ResponseEntity<>(body, HttpStatus.NOT_FOUND);
+    }
+
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(
             MethodArgumentNotValidException ex, HttpHeaders headers,

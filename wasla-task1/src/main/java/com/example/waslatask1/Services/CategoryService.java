@@ -1,7 +1,6 @@
 package com.example.waslatask1.Services;
 
 import com.example.waslatask1.Models.Category;
-import com.example.waslatask1.Models.Post;
 import com.example.waslatask1.Repositories.CategoryRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
