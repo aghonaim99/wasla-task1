@@ -42,6 +42,28 @@ public class ControllerAdvisor extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(body, HttpStatus.NOT_FOUND);
     }
 
+    @ExceptionHandler(PostAlreadyExistsException.class)
+    public ResponseEntity<Object> handlePostAlreadyExistsException(PostAlreadyExistsException ex, WebRequest request)
+    {
+        Map<String, Object> body = new LinkedHashMap<>();
+        body.put("timestamp", LocalDateTime.now());
+        body.put("code", "-3");
+        body.put("message", "Post already exists");
+
+        return new ResponseEntity<>(body, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(InvalidLanguageException.class)
+    public ResponseEntity<Object> handleInvalidLangException(InvalidLanguageException ex, WebRequest request)
+    {
+        Map<String, Object> body = new LinkedHashMap<>();
+        body.put("timestamp", LocalDateTime.now());
+        body.put("code", "-4");
+        body.put("message", "Invalid language");
+
+        return new ResponseEntity<>(body, HttpStatus.NOT_FOUND);
+    }
+
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(
             MethodArgumentNotValidException ex, HttpHeaders headers,
