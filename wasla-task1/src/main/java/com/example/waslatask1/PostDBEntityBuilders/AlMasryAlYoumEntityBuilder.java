@@ -37,8 +37,6 @@ public class AlMasryAlYoumEntityBuilder implements PostDBEntityBuilder<Document>
         catch (Exception e){
             throw new InaccessibleFileException(path);
         }
-
-//        return doc;
     }
 
     @Override
@@ -58,11 +56,11 @@ public class AlMasryAlYoumEntityBuilder implements PostDBEntityBuilder<Document>
                     Element itemElement = (Element) itemNode;
 
                     currentNode = "title";
-                    String title = itemElement.getElementsByTagName(currentNode).item(0).getTextContent();
+                    String title = parseTitleNode(itemElement);
                     currentNode = "description";
-                    String desc = itemElement.getElementsByTagName(currentNode).item(0).getTextContent().split(">")[2];
+                    String desc = parseDescNode(itemElement);
                     currentNode = "img";
-                    String imgurl = itemElement.getElementsByTagName("description").item(0).getTextContent().split("src='")[1].split("'")[0];
+                    String imgurl = extractImgURL(itemElement);
 
                     post.setTitle_ar(title);
                     post.setBody_ar(desc);
@@ -79,6 +77,15 @@ public class AlMasryAlYoumEntityBuilder implements PostDBEntityBuilder<Document>
         {
             throw new CantParseNodeException(currentNode, e.getMessage());
         }
-//        return null;
+    }
+
+    private String parseTitleNode(Element itemElement) {
+        return itemElement.getElementsByTagName("title").item(0).getTextContent();
+    }
+    private String parseDescNode(Element itemElement) {
+        return itemElement.getElementsByTagName("description").item(0).getTextContent().split(">")[2];
+    }
+    private String extractImgURL(Element itemElement) {
+        return itemElement.getElementsByTagName("description").item(0).getTextContent().split("src='")[1].split("'")[0];
     }
 }

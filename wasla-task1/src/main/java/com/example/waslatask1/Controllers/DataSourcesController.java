@@ -31,4 +31,20 @@ public class DataSourcesController {
 
         return new ResponseEntity<>(postsStatus, new HttpHeaders(), HttpStatus.CREATED);
     }
+
+    @GetMapping("/getposts")
+    public ResponseEntity<String> getPostsFromDataSources(){
+        String MasryYoumStatus, Youm7Status;
+
+        MasryYoumStatus = dsService.saveMasryYoumPosts();
+        Youm7Status = dsService.saveAhramPosts();
+
+        String status = MasryYoumStatus == "Posts saved successfully" &&
+                        Youm7Status == "Posts saved successfully"
+                        ?
+                        "Success" : "One (or more) failed";
+
+        return new ResponseEntity<>(status, new HttpHeaders(), HttpStatus.CREATED);
+    }
+
 }
