@@ -1,4 +1,4 @@
-package com.example.waslatask1.Builders;
+package com.example.waslatask1.PostBuilders;
 
 import com.example.waslatask1.Models.Post;
 import com.example.waslatask1.Models.PostDBEntity;
