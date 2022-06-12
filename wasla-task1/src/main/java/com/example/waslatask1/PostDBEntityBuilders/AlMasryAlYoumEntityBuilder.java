@@ -1,5 +1,7 @@
 package com.example.waslatask1.PostDBEntityBuilders;
 
+import com.example.waslatask1.Exceptions.CantParseNodeException;
+import com.example.waslatask1.Exceptions.InaccessibleFileException;
 import com.example.waslatask1.Models.Category;
 import com.example.waslatask1.Models.PostDBEntity;
 import com.example.waslatask1.Repositories.CategoryRepo;
@@ -10,6 +12,9 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,11 +25,29 @@ public class AlMasryAlYoumEntityBuilder implements PostDBEntityBuilder<Document>
     PostRepo postRepo;
 
     @Override
-    public List<PostDBEntity> buildEntity(Document doc, Category category) {
+    public Document getDocument(String path) {
+        try{
+            File xmlFile = new File(path);
+            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder builder = factory.newDocumentBuilder();
+            Document doc = builder.parse(xmlFile);
+
+            return doc;
+        }
+        catch (Exception e){
+            throw new InaccessibleFileException(path);
+        }
+
+//        return doc;
+    }
+
+    @Override
+    public List<PostDBEntity> buildDBEntities(Document document, Category category) {
+        String currentNode = "";
         try
         {
             List<PostDBEntity> dbPosts = new ArrayList<>();
-            NodeList itemsNodes = doc.getElementsByTagName("item");
+            NodeList itemsNodes = document.getElementsByTagName("item");
             PostDBEntity post;
             for(int i=0; i<itemsNodes.getLength(); i++)
             {
@@ -34,8 +57,11 @@ public class AlMasryAlYoumEntityBuilder implements PostDBEntityBuilder<Document>
                 {
                     Element itemElement = (Element) itemNode;
 
-                    String title = itemElement.getElementsByTagName("title").item(0).getTextContent();
-                    String desc = itemElement.getElementsByTagName("description").item(0).getTextContent().split(">")[2];
+                    currentNode = "title";
+                    String title = itemElement.getElementsByTagName(currentNode).item(0).getTextContent();
+                    currentNode = "description";
+                    String desc = itemElement.getElementsByTagName(currentNode).item(0).getTextContent().split(">")[2];
+                    currentNode = "img";
                     String imgurl = itemElement.getElementsByTagName("description").item(0).getTextContent().split("src='")[1].split("'")[0];
 
                     post.setTitle_ar(title);
@@ -51,8 +77,8 @@ public class AlMasryAlYoumEntityBuilder implements PostDBEntityBuilder<Document>
         }
         catch (Exception e)
         {
-            System.out.println(e.getMessage());
+            throw new CantParseNodeException(currentNode, e.getMessage());
         }
-        return null;
+//        return null;
     }
 }
