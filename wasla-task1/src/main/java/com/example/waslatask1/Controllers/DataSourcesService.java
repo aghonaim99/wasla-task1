@@ -16,6 +16,7 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import java.io.StringReader;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class DataSourcesService {
@@ -24,35 +25,17 @@ public class DataSourcesService {
     @Autowired
     CategoryRepo categoryRepo;
 
-    private Document convertStringToDocument(String xmlStr) {
-        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-        DocumentBuilder builder;
-        try
-        {
-            builder = factory.newDocumentBuilder();
-            Document doc = builder.parse( new InputSource( new StringReader( xmlStr ) ) );
 
-            return doc;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-//    private Document accessXMLFile(String filename) throws ParserConfigurationException, IOException, SAXException {
-//
-//
-//        return doc;
-//    }
     public String saveMasryYoumPosts()
     {
         try{
             AlMasryAlYoumEntityBuilder alMasryAlYoumEntityBuilder = new AlMasryAlYoumEntityBuilder();
 
             Document doc = alMasryAlYoumEntityBuilder.getDocument("almasryalyoum.xml");
-            Category c = categoryRepo.findById(1L).orElseThrow(InvalidCategoryIDException::new);
+//            Category c = categoryRepo.findById(1L).orElseThrow(InvalidCategoryIDException::new);
+            Optional<Category> c = categoryRepo.findById(1L);
 
-            List<PostDBEntity> savedPosts = alMasryAlYoumEntityBuilder.buildDBEntities(doc,c);
+            List<PostDBEntity> savedPosts = alMasryAlYoumEntityBuilder.buildDBEntities(doc,c.get());
             postRepo.saveAll(savedPosts);
 
             return "Posts saved successfully";

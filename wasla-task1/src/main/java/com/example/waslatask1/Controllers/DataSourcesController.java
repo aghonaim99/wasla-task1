@@ -18,19 +18,19 @@ public class DataSourcesController {
     @Autowired
     DataSourcesService dsService;
 
-    @GetMapping("/masryyoumrss")
-    public ResponseEntity<String> saveMasryYoumPosts() {
-        String postsStatus = dsService.saveMasryYoumPosts();
+//    @GetMapping("/masryyoumrss")
+//    public ResponseEntity<String> saveMasryYoumPosts() {
+//        String postsStatus = dsService.saveMasryYoumPosts();
+//
+//        return new ResponseEntity<>(postsStatus, new HttpHeaders(), HttpStatus.CREATED);
+//    }
 
-        return new ResponseEntity<>(postsStatus, new HttpHeaders(), HttpStatus.CREATED);
-    }
-
-    @GetMapping("/ahramrss")
-    public ResponseEntity<String> saveAhramPosts() throws ParserConfigurationException, IOException, SAXException {
-        String postsStatus = dsService.saveAhramPosts();
-
-        return new ResponseEntity<>(postsStatus, new HttpHeaders(), HttpStatus.CREATED);
-    }
+//    @GetMapping("/ahramrss")
+//    public ResponseEntity<String> saveAhramPosts() throws ParserConfigurationException, IOException, SAXException {
+//        String postsStatus = dsService.saveAhramPosts();
+//
+//        return new ResponseEntity<>(postsStatus, new HttpHeaders(), HttpStatus.CREATED);
+//    }
 
     @GetMapping("/getposts")
     public ResponseEntity<String> getPostsFromDataSources(){
@@ -39,12 +39,28 @@ public class DataSourcesController {
         MasryYoumStatus = dsService.saveMasryYoumPosts();
         Youm7Status = dsService.saveAhramPosts();
 
-        String status = MasryYoumStatus == "Posts saved successfully" &&
-                        Youm7Status == "Posts saved successfully"
-                        ?
-                        "Success" : "One (or more) failed";
+        HttpStatus httpStatus;
 
-        return new ResponseEntity<>(status, new HttpHeaders(), HttpStatus.CREATED);
+        String status;
+        if(MasryYoumStatus == "Posts saved successfully" && Youm7Status == "Posts saved successfully")
+        {
+            status = "Success";
+            httpStatus = HttpStatus.CREATED;
+        }
+        else if(MasryYoumStatus == "Posts saved successfully" || Youm7Status == "Posts saved successfully")
+        {
+            status = "One (or more) failed";
+            httpStatus = HttpStatus.OK;
+        }
+        else
+        {
+            status = "Failed";
+            httpStatus = HttpStatus.NO_CONTENT;
+        }
+
+        return new ResponseEntity<>(status,
+                new HttpHeaders(),
+                httpStatus);
     }
 
 }

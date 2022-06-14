@@ -39,7 +39,7 @@ public class AlAhramEntityBuilder implements PostDBEntityBuilder<Document> {
             List<PostDBEntity> dbPosts = new ArrayList<>();
             NodeList itemsNodes = document.getElementsByTagName("item");
             PostDBEntity post;
-            for(int i=0; i<itemsNodes.getLength(); i++)
+            for(int i=0; i<itemsNodes.getLength(); i++) // Loop through items in datasource
             {
                 post = new PostDBEntity();
                 Node itemNode = itemsNodes.item(i);
