@@ -142,16 +142,27 @@ public class PostService {
 //        return post;
     }
 
-    public PostDBEntity updatePost(PostDBEntity post) {
-        if(postRepo.existsById(post.getId()))
-            return postRepo.save(post);
-        else
-            throw new InvalidPostIDException();
+    public String updatePost(NewPost post) {
+        PostDBEntity postDBEntity = postRepo.findById(post.getId())
+                .orElseThrow(InvalidPostIDException::new);
+        Category c = categoryRepo.findById(post.getCategoryId())
+                .orElseThrow(InvalidCategoryIDException::new);
+
+        postDBEntity.setTitle_en(post.getTitle_en());
+        postDBEntity.setTitle_ar(post.getTitle_ar());
+        postDBEntity.setBody_en(post.getBody_en());
+        postDBEntity.setBody_ar(post.getBody_ar());
+        postDBEntity.setType(post.getType());
+        postDBEntity.setImg_url(post.getImgUrl());
+        postDBEntity.setCategory(c);
+        postRepo.save(postDBEntity);
+
+        return "Post updated successfully";
     }
 
-    public String deletePost(PostDBEntity post){
-        if(postRepo.existsById(post.getId()))
-            postRepo.deleteById(post.getId());
+    public String deletePost(Long id){
+        if(postRepo.existsById(id))
+            postRepo.deleteById(id);
         else
             throw new InvalidPostIDException();
 

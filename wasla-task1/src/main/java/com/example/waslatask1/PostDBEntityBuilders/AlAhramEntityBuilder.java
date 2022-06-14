@@ -16,20 +16,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AlAhramEntityBuilder implements PostDBEntityBuilder<Document> {
-    @Override
-    public Document getDocument(String path) {
-        try{
-            DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-            DocumentBuilder db = dbf.newDocumentBuilder();
-            Document doc = db.parse(new URL(path).openStream());
-
-            return doc;
-        }
-        catch (Exception e)
-        {
-            throw new InaccessibleFileException(path);
-        }
-    }
+//    @Override
+//    public Document getDocument(String path) {
+//        try{
+//            DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+//            DocumentBuilder db = dbf.newDocumentBuilder();
+//            Document doc = db.parse(new URL(path).openStream());
+//
+//            return doc;
+//        }
+//        catch (Exception e)
+//        {
+//            throw new InaccessibleFileException(path);
+//        }
+//    }
 
     @Override
     public List<PostDBEntity> buildDBEntities(Document document, Category category) {

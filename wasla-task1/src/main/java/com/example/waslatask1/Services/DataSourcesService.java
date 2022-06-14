@@ -1,6 +1,8 @@
-package com.example.waslatask1.Controllers;
+package com.example.waslatask1.Services;
 
 import com.example.waslatask1.Exceptions.InvalidCategoryIDException;
+import com.example.waslatask1.Fetchers.AlAhramFetcher;
+import com.example.waslatask1.Fetchers.AlMasryAlYoumFetcher;
 import com.example.waslatask1.Models.Category;
 import com.example.waslatask1.Models.PostDBEntity;
 import com.example.waslatask1.PostDBEntityBuilders.AlAhramEntityBuilder;
@@ -28,11 +30,12 @@ public class DataSourcesService {
 
     public String saveMasryYoumPosts()
     {
+        AlMasryAlYoumFetcher fetcher = new AlMasryAlYoumFetcher();
         try{
             AlMasryAlYoumEntityBuilder alMasryAlYoumEntityBuilder = new AlMasryAlYoumEntityBuilder();
 
-            Document doc = alMasryAlYoumEntityBuilder.getDocument("almasryalyoum.xml");
-//            Category c = categoryRepo.findById(1L).orElseThrow(InvalidCategoryIDException::new);
+//            Document doc = alMasryAlYoumEntityBuilder.getDocument("almasryalyoum.xml");
+            Document doc = fetcher.getDatasource("almasryalyoum.xml");
             Optional<Category> c = categoryRepo.findById(1L);
 
             List<PostDBEntity> savedPosts = alMasryAlYoumEntityBuilder.buildDBEntities(doc,c.get());
@@ -51,8 +54,9 @@ public class DataSourcesService {
     public String saveAhramPosts() {
 
         AlAhramEntityBuilder alAhramEntityBuilder = new AlAhramEntityBuilder();
-
-        Document doc = alAhramEntityBuilder.getDocument("https://www.ahram.org.eg/daily/archive/RssXml.aspx?CategoryID=25");
+        AlAhramFetcher fetcher = new AlAhramFetcher();
+//        Document doc = alAhramEntityBuilder.getDocument("https://www.ahram.org.eg/daily/archive/RssXml.aspx?CategoryID=25");
+        Document doc = fetcher.getDatasource("https://www.ahram.org.eg/daily/archive/RssXml.aspx?CategoryID=25");
         Category c = categoryRepo.findById(2L).orElseThrow(InvalidCategoryIDException::new);
 
         List<PostDBEntity> savedPosts = alAhramEntityBuilder.buildDBEntities(doc,c);

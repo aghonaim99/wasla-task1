@@ -1,27 +1,20 @@
 package com.example.waslatask1.ControllersTests;
 
 import com.example.waslatask1.Controllers.DataSourcesController;
-import com.example.waslatask1.Controllers.DataSourcesService;
-import org.junit.Assert;
+import com.example.waslatask1.Services.DataSourcesService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 

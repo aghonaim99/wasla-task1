@@ -1,12 +1,9 @@
 package com.example.waslatask1.Services;
 
-import com.example.waslatask1.Controllers.DataSourcesService;
-import com.example.waslatask1.Exceptions.InvalidCategoryIDException;
 import com.example.waslatask1.Models.Category;
 import com.example.waslatask1.Models.PostDBEntity;
 import com.example.waslatask1.PostDBEntityBuilders.AlAhramEntityBuilder;
 import com.example.waslatask1.PostDBEntityBuilders.AlMasryAlYoumEntityBuilder;
-import com.example.waslatask1.PostDBEntityBuildersTests.AlAhramEntityBuilderTests;
 import com.example.waslatask1.Repositories.CategoryRepo;
 import com.example.waslatask1.Repositories.PostRepo;
 import org.junit.Assert;
@@ -28,7 +25,6 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.mockito.Mockito.lenient;
-import static org.mockito.Mockito.when;
 
 @SpringBootTest
 @RunWith(MockitoJUnitRunner.class)

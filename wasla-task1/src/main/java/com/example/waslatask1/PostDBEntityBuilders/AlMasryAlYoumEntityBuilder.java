@@ -24,20 +24,20 @@ public class AlMasryAlYoumEntityBuilder implements PostDBEntityBuilder<Document>
     @Autowired
     PostRepo postRepo;
 
-    @Override
-    public Document getDocument(String path) {
-        try{
-            File xmlFile = new File(path);
-            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-            DocumentBuilder builder = factory.newDocumentBuilder();
-            Document doc = builder.parse(xmlFile);
-
-            return doc;
-        }
-        catch (Exception e){
-            throw new InaccessibleFileException(path);
-        }
-    }
+//    @Override
+//    public Document getDocument(String path) {
+//        try{
+//            File xmlFile = new File(path);
+//            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+//            DocumentBuilder builder = factory.newDocumentBuilder();
+//            Document doc = builder.parse(xmlFile);
+//
+//            return doc;
+//        }
+//        catch (Exception e){
+//            throw new InaccessibleFileException(path);
+//        }
+//    }
 
     @Override
     public List<PostDBEntity> buildDBEntities(Document document, Category category) {

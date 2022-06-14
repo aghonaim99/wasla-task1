@@ -41,14 +41,14 @@ public class PostController {
         return null;
     }
 
-    @GetMapping("/getAllPosts")
+    @GetMapping("/getall")
     public ResponseEntity<List<Post>> getAllPosts(@RequestParam(name="lang", required = true) String lang) {
         List<Post> posts = postService.getAllPosts(lang);
 
         return new ResponseEntity<>(posts, new HttpHeaders(), HttpStatus.OK);
     }
 
-    @GetMapping("/getPageOfPosts")
+    @GetMapping("/getpage")
     public ResponseEntity<Map<String, Object>> getPostsPageable(@RequestParam(name="page", required = true) int pageNum,
                                                                 @RequestParam(name="size", defaultValue = "2") int rowsPerPage,
                                                                 @RequestParam(name="lang", required = true) String lang) {
@@ -57,7 +57,7 @@ public class PostController {
         return new ResponseEntity<Map<String, Object>>(posts, new HttpHeaders(), HttpStatus.OK);
     }
 
-    @GetMapping("/findPostById")
+    @GetMapping("/findpost")
     public ResponseEntity<Post> findPostByID(@RequestParam(name="postID", required = true) Long postID,
                                                      @RequestParam(name="lang", required = true) String lang) {
         Post post = postService.getPost(postID, lang);
@@ -65,20 +65,21 @@ public class PostController {
         return new ResponseEntity<>(post, new HttpHeaders(), HttpStatus.FOUND);
     }
 
-    @PostMapping("/createPost")
+    @PostMapping("/create")
     public ResponseEntity<String> createPost(@RequestBody NewPost post) {
         postService.createPost(post);
-        return new ResponseEntity<>("p", new HttpHeaders(), HttpStatus.CREATED);
+        return new ResponseEntity<>("Post created successfully", new HttpHeaders(), HttpStatus.CREATED);
     }
 
-    @PostMapping("/updatePost")
-    public ResponseEntity<PostDBEntity> updatePost(@RequestBody PostDBEntity post){
-        PostDBEntity p = postService.updatePost(post);
-        return new ResponseEntity<PostDBEntity>(p, new HttpHeaders(), HttpStatus.OK);
+    @PostMapping("/update")
+    public ResponseEntity<String> updatePost(@RequestBody NewPost post){
+        String updateStatus = postService.updatePost(post);
+        return new ResponseEntity<>(updateStatus, new HttpHeaders(), HttpStatus.OK);
     }
 
-//    @DeleteMapping("/deletePost")
-//    public ResponseEntity<String> deletePost(@RequestBody Post post){
-//        PostService.d
-//    }
+    @DeleteMapping("/delete")
+    public ResponseEntity<String> deletePost(@RequestBody Long id){
+        String deleteStatus = postService.deletePost(id);
+        return new ResponseEntity<>(deleteStatus, new HttpHeaders(), HttpStatus.OK);
+    }
 }

@@ -1,7 +1,7 @@
 package com.example.waslatask1.Models;
 
 public class NewPost {
-
+    private Long id;
     private String title_en;
     private String title_ar;
     private String body_en;
@@ -64,5 +64,9 @@ public class NewPost {
 
     public void setImgUrl(String imgUrl) {
         this.imgUrl = imgUrl;
+    }
+
+    public Long getId() {
+        return id;
     }
 }
