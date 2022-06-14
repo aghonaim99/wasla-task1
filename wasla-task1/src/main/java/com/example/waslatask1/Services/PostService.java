@@ -1,12 +1,10 @@
 package com.example.waslatask1.Services;
 
-import com.example.waslatask1.Builders.ArabicPostBuilder;
-import com.example.waslatask1.Builders.EnglishPostBuilder;
-import com.example.waslatask1.Builders.PostBuilder;
+import com.example.waslatask1.PostBuilders.ArabicPostBuilder;
+import com.example.waslatask1.PostBuilders.EnglishPostBuilder;
+import com.example.waslatask1.PostBuilders.PostBuilder;
 import com.example.waslatask1.Exceptions.InvalidCategoryIDException;
-import com.example.waslatask1.Exceptions.InvalidLanguageException;
 import com.example.waslatask1.Exceptions.InvalidPostIDException;
-import com.example.waslatask1.Exceptions.PostAlreadyExistsException;
 import com.example.waslatask1.Models.Category;
 import com.example.waslatask1.Models.NewPost;
 import com.example.waslatask1.Models.Post;
@@ -19,7 +17,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.*;
 
 @Service
@@ -127,6 +124,8 @@ public class PostService {
             Category c = categoryRepo.findById(post.getCategoryId()).orElseThrow(InvalidCategoryIDException::new);
 
             postDBEntity.setCategory(c);
+
+            postRepo.save(postDBEntity);
 
             System.out.println("Post created successfully");
 

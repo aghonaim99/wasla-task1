@@ -20,47 +20,53 @@ import java.util.stream.Collectors;
 
 @ControllerAdvice
 public class ControllerAdvisor extends ResponseEntityExceptionHandler {
+    private Map<String, Object> createErrorMap(LocalDateTime time, String errorCode, String errorMsg){
+        Map<String, Object> errorBody = new LinkedHashMap<>();
+        errorBody.put("timestamp", time);
+        errorBody.put("code", errorCode);
+        errorBody.put("message", errorMsg);
+
+        return errorBody;
+    }
     @ExceptionHandler(InvalidCategoryIDException.class)
     public ResponseEntity<Object> handleInvalidCategoryException(InvalidCategoryIDException ex, WebRequest request)
     {
-        Map<String, Object> body = new LinkedHashMap<>();
-        body.put("timestamp", LocalDateTime.now());
-        body.put("code", "-1");
-        body.put("message", "Category does not exist");
-
+        Map<String, Object> body = createErrorMap(LocalDateTime.now(), "-1", "Category does not exist");
         return new ResponseEntity<>(body, HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(InvalidPostIDException.class)
     public ResponseEntity<Object> handleInvalidCategoryException(InvalidPostIDException ex, WebRequest request)
     {
-        Map<String, Object> body = new LinkedHashMap<>();
-        body.put("timestamp", LocalDateTime.now());
-        body.put("code", "-2");
-        body.put("message", "Post does not exist");
-
+        Map<String, Object> body = createErrorMap(LocalDateTime.now(), "-2", "Post does not exist");
         return new ResponseEntity<>(body, HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(PostAlreadyExistsException.class)
     public ResponseEntity<Object> handlePostAlreadyExistsException(PostAlreadyExistsException ex, WebRequest request)
     {
-        Map<String, Object> body = new LinkedHashMap<>();
-        body.put("timestamp", LocalDateTime.now());
-        body.put("code", "-3");
-        body.put("message", "Post already exists");
-
+        Map<String, Object> body = createErrorMap(LocalDateTime.now(), "-3", "Post already exists");
         return new ResponseEntity<>(body, HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(InvalidLanguageException.class)
     public ResponseEntity<Object> handleInvalidLangException(InvalidLanguageException ex, WebRequest request)
     {
-        Map<String, Object> body = new LinkedHashMap<>();
-        body.put("timestamp", LocalDateTime.now());
-        body.put("code", "-4");
-        body.put("message", "Invalid language");
+        Map<String, Object> body = createErrorMap(LocalDateTime.now(), "-4", "Invalid language");
+        return new ResponseEntity<>(body, HttpStatus.NOT_FOUND);
+    }
 
+    @ExceptionHandler(InaccessibleFileException.class)
+    public ResponseEntity<Object> handleInaccessibleFileException(InaccessibleFileException ex, WebRequest request)
+    {
+        Map<String, Object> body = createErrorMap(LocalDateTime.now(), "-5", "Can't access file specified");
+        return new ResponseEntity<>(body, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(CantParseNodeException.class)
+    public ResponseEntity<Object> handleCantParseNodeException(CantParseNodeException ex, WebRequest request)
+    {
+        Map<String, Object> body = createErrorMap(LocalDateTime.now(), "-6", "Can't parse node");
         return new ResponseEntity<>(body, HttpStatus.NOT_FOUND);
     }
 

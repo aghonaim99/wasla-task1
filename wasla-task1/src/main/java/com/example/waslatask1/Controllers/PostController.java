@@ -9,7 +9,14 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
+import org.w3c.dom.Document;
+import org.xml.sax.InputSource;
 
+import javax.xml.crypto.dsig.XMLObject;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import java.io.StringReader;
 import java.util.List;
 import java.util.Map;
 
@@ -18,6 +25,21 @@ import java.util.Map;
 public class PostController {
     @Autowired
     PostService postService;
+
+
+
+    @GetMapping("/youm7rss")
+    public Document testrss(){
+        String url = "http://localhost:8089/ds/youm7rss";
+        RestTemplate restTemplate = new RestTemplate();
+        String str =restTemplate.getForObject(url, String.class);
+//        Document docObj = convertStringToDocument(str);
+//        System.out.println(docObj);
+        System.out.println(str);
+//        docObj.getElementsByTagName("")
+
+        return null;
+    }
 
     @GetMapping("/getAllPosts")
     public ResponseEntity<List<Post>> getAllPosts(@RequestParam(name="lang", required = true) String lang) {
@@ -44,9 +66,9 @@ public class PostController {
     }
 
     @PostMapping("/createPost")
-    public ResponseEntity<PostDBEntity> createPost(@RequestBody NewPost post) {
-        PostDBEntity p = postService.createPost(post);
-        return new ResponseEntity<PostDBEntity>(p, new HttpHeaders(), HttpStatus.CREATED);
+    public ResponseEntity<String> createPost(@RequestBody NewPost post) {
+        postService.createPost(post);
+        return new ResponseEntity<>("p", new HttpHeaders(), HttpStatus.CREATED);
     }
 
     @PostMapping("/updatePost")
